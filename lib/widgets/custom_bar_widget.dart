@@ -21,7 +21,7 @@ class CustomBarWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            'Remainders',
+            'Reminders',
             style: TextStyle(
               color: colorr,
               fontSize: 23,

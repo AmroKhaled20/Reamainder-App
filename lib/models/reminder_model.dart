@@ -11,7 +11,7 @@ class ReminderModel {
   final String title;
 
   @HiveField(2)
-  final List<String> days;
+  final List<int> days;
 
   @HiveField(3)
   final int hours;

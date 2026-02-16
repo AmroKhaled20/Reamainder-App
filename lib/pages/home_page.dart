@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:remainder/widgets/custom_bar_widget.dart';
+import 'package:remainder/widgets/custom_reminder_card_widget.dart';
 
 class HomePage extends StatelessWidget {
   static String id = 'Home page';
@@ -14,6 +15,7 @@ class HomePage extends StatelessWidget {
             children: [
               CustomBarWidget(icon: Icons.search),
               const SizedBox(height: 10),
+              const CustomReminderCardWidget(),
             ],
           ),
         ),

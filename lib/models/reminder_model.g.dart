@@ -19,7 +19,7 @@ class ReminderModelAdapter extends TypeAdapter<ReminderModel> {
     return ReminderModel(
       id: fields[0] as String,
       title: fields[1] as String,
-      days: (fields[2] as List).cast<String>(),
+      days: (fields[2] as List).cast<int>(),
       hours: fields[3] as int,
       minutes: fields[4] as int,
       isActive: fields[5] as bool,
