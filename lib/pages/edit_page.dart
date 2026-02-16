@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:remainder/widgets/custom_bar_widget.dart';
 
-class HomePage extends StatelessWidget {
-  static String id = 'Home page';
-  const HomePage();
+class EditPage extends StatelessWidget {
+  static String id = 'Edit page';
+
+  const EditPage();
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -12,7 +13,7 @@ class HomePage extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Column(
             children: [
-              CustomBarWidget(icon: Icons.search),
+              CustomBarWidget(icon: Icons.check),
               const SizedBox(height: 10),
             ],
           ),
