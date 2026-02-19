@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:remainder/constants.dart';
 
 class CustomSwitchWidget extends StatefulWidget {
   @override
@@ -17,9 +18,9 @@ class _CustomSwitchWidgetState extends State<CustomSwitchWidget> {
             isActive = value;
           });
         },
-        activeThumbColor: Colors.white, // لون الدايرة
-        activeTrackColor: Colors.blue, // لون الخلفية لما يبقى On
-        inactiveTrackColor: Colors.grey.shade400, // لما يبقى Off
+        activeThumbColor: Colors.white,
+        activeTrackColor: kDayselected,
+        inactiveTrackColor: Colors.grey.shade400,
       ),
     );
   }
