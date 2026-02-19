@@ -1,12 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:remainder/constants.dart';
 import 'package:remainder/widgets/custom_addedit_reminder_card_widget.dart';
-
-import 'package:remainder/widgets/custom_listofdays_widget.dart';
-import 'package:remainder/widgets/custom_outline_button_widget.dart';
-import 'package:remainder/widgets/custom_textfield_widget.dart';
-
-import '../widgets/custom_daily_checkbox_widget.dart';
 
 class EditPage extends StatelessWidget {
   static String id = 'Edit page';

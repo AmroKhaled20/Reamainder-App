@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:remainder/constants.dart';
 
 class CustomOutlineButtonWidget extends StatelessWidget {
   const CustomOutlineButtonWidget({
     super.key,
     required this.title,
     required this.onTap,
-    this.color = const Color.fromARGB(255, 5, 102, 181),
+    this.color = kEditPage,
   });
 
   final String title;

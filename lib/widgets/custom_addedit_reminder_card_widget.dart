@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:remainder/constants.dart';
 import 'package:remainder/widgets/custom_daily_checkbox_widget.dart';
 import 'package:remainder/widgets/custom_listofdays_widget.dart';
 import 'package:remainder/widgets/custom_outline_button_widget.dart';
@@ -28,24 +29,15 @@ class CustomAddeditReminderCardWidget extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                'Reminder Title*',
-                style: TextStyle(color: const Color.fromARGB(255, 5, 102, 181)),
-              ),
+              Text('Reminder Title*', style: TextStyle(color: kEditPage)),
               //Title feild
               CustomTextFieldWidget(),
               const SizedBox(height: 20),
-              Text(
-                'Reminder Date*',
-                style: TextStyle(color: const Color.fromARGB(255, 5, 102, 181)),
-              ),
+              Text('Reminder Date*', style: TextStyle(color: kEditPage)),
               //Reminder Date
               CustomTextFieldWidget(),
               const SizedBox(height: 20),
-              Text(
-                'Note (optional)',
-                style: TextStyle(color: const Color.fromARGB(255, 5, 102, 181)),
-              ),
+              Text('Note (optional)', style: TextStyle(color: kEditPage)),
               //Note (optional)
               CustomTextFieldWidget(minLines: 5, maxLines: 5),
               const SizedBox(height: 20),
@@ -54,9 +46,7 @@ class CustomAddeditReminderCardWidget extends StatelessWidget {
                 children: [
                   Text(
                     'Reminder Frequency*',
-                    style: TextStyle(
-                      color: const Color.fromARGB(255, 5, 102, 181),
-                    ),
+                    style: TextStyle(color: kEditPage),
                   ),
                   CustomDailyCheckboxWidget(),
                 ],

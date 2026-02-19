@@ -8,3 +8,4 @@ const Color kCardColor = Colors.white;
 const Color kTimeColor = Colors.black;
 const Color kDayselected = Color.fromARGB(255, 14, 172, 3);
 const Color kDayNotselected = Color.fromARGB(201, 123, 182, 231);
+const Color kEditPage = Color.fromARGB(255, 5, 102, 181);

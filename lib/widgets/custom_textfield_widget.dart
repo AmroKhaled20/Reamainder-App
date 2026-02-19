@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:remainder/constants.dart';
 
 class CustomTextFieldWidget extends StatelessWidget {
   const CustomTextFieldWidget({
@@ -31,7 +32,7 @@ class CustomTextFieldWidget extends StatelessWidget {
           return null;
         }
       },
-      cursorColor: textColor ?? const Color.fromARGB(255, 5, 102, 181),
+      cursorColor: textColor ?? kEditPage,
       style: TextStyle(color: textColor ?? Colors.black),
       keyboardType: TextInputType.multiline,
       maxLines: maxLines,
@@ -42,10 +43,7 @@ class CustomTextFieldWidget extends StatelessWidget {
         hintText: hintText,
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(16)),
         focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(
-            color: const Color.fromARGB(255, 5, 102, 181),
-            width: 2,
-          ),
+          borderSide: BorderSide(color: kEditPage, width: 2),
           borderRadius: BorderRadius.circular(16),
         ),
       ),
