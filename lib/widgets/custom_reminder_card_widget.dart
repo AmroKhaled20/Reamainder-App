@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:remainder/constants.dart';
-import 'package:remainder/widgets/custom_day_icon_widget.dart';
 import 'package:remainder/widgets/custom_listofdays_widget.dart';
 import 'package:remainder/widgets/custom_switch_widget.dart';
 
 class CustomReminderCardWidget extends StatelessWidget {
   const CustomReminderCardWidget();
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -16,14 +16,7 @@ class CustomReminderCardWidget extends StatelessWidget {
           color: const Color.fromARGB(255, 120, 120, 120),
           width: 3,
         ),
-        boxShadow: [
-          BoxShadow(
-            color: const Color.fromARGB(255, 120, 120, 120).withOpacity(0.4),
-            blurRadius: 10,
-            spreadRadius: 2,
-            offset: Offset(0, 3),
-          ),
-        ],
+
         color: kCardColor,
       ),
       width: double.infinity,
