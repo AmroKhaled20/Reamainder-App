@@ -10,6 +10,9 @@ class CustomTextFieldWidget extends StatelessWidget {
     this.minLines = 1,
     this.textColor,
     this.onChanged,
+    this.onTap,
+    this.readOnly = false,
+    this.isRequired = true,
     super.key,
   });
   final String? hintText;
@@ -19,13 +22,19 @@ class CustomTextFieldWidget extends StatelessWidget {
   final int minLines;
   final Color? textColor;
   final void Function(String)? onChanged;
+  final void Function()? onTap;
+  final bool readOnly;
+  final bool isRequired;
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      onTap: onTap,
+      readOnly: readOnly,
       controller: controller,
       onSaved: onSaved,
       onChanged: onChanged,
       validator: (value) {
+        if (!isRequired) return null;
         if (value?.isEmpty ?? true) {
           return 'Feild is required';
         } else {

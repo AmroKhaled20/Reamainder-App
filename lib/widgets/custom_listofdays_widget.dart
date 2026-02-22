@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:remainder/widgets/custom_day_icon_widget.dart';
 
 class CustomListofdaysWidget extends StatelessWidget {
+  CustomListofdaysWidget({this.isClikable = false});
+
+  bool isClikable;
+  
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -11,7 +15,7 @@ class CustomListofdaysWidget extends StatelessWidget {
         children: weekDays.map((day) {
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 3),
-            child: CustomDayIconWidget(day: day),
+            child: CustomDayIconWidget(day: day, isClickable: isClikable),
           );
         }).toList(),
       ),
