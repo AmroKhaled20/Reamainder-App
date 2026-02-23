@@ -1,5 +1,8 @@
 import 'package:bloc/bloc.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:meta/meta.dart';
+import 'package:remainder/constants.dart';
+import 'package:remainder/models/reminder_model.dart';
 
 part 'reminder_form_state.dart';
 
@@ -29,6 +32,23 @@ class ReminderFormCubit extends Cubit<ReminderFormState> {
   void clearForm() {
     selectedDays.clear();
     emit(ReminderFormClear());
-    emit(ReminderFormSelectDays(selectedDays: List.from(selectedDays)));
+    // emit(ReminderFormSelectDays(selectedDays: List.from(selectedDays)));
+  }
+
+  void saveReminder(ReminderModel reminder) async {
+    emit(ReminderFormLoading());
+    print('Saving reminder: ${reminder.title}');
+    try {
+      var reminderBox = Hive.box<ReminderModel>(kReminderBox);
+      await reminderBox.add(reminder);
+      // selectedDays.clear();
+      // print('Days cleared: $selectedDays');
+
+      emit(ReminderFormSaveSuccessful());
+      print('Saved successfully');
+    } catch (e) {
+      print('Error: $e');
+      emit(ReminderFormSaveFailure(e.toString()));
+    }
   }
 }

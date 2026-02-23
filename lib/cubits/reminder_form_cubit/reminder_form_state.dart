@@ -13,7 +13,11 @@ final class ReminderFormLoading extends ReminderFormState {}
 
 final class ReminderFormSaveSuccessful extends ReminderFormState {}
 
-final class ReminderFormSaveFailure extends ReminderFormState {}
+final class ReminderFormSaveFailure extends ReminderFormState {
+  final String errorMessage;
+
+  ReminderFormSaveFailure(this.errorMessage);
+}
 
 final class ReminderFormSelectDays extends ReminderFormState {
   final List<int> selectedDays;

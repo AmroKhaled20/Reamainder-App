@@ -3,7 +3,7 @@ import 'package:hive/hive.dart';
 part 'reminder_model.g.dart';
 
 @HiveType(typeId: 0)
-class ReminderModel {
+class ReminderModel extends HiveObject {
   @HiveField(0)
   final String id;
 
@@ -22,6 +22,9 @@ class ReminderModel {
   @HiveField(5)
   final bool isActive;
 
+  @HiveField(6)
+  final String? note;
+
   ReminderModel({
     required this.id,
     required this.title,
@@ -29,5 +32,6 @@ class ReminderModel {
     required this.hours,
     required this.minutes,
     required this.isActive,
+    this.note,
   });
 }

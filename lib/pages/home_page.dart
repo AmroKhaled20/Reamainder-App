@@ -1,11 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:remainder/cubits/read_reminder_cubit/read_reminder_cubit.dart';
 import 'package:remainder/pages/edit_page.dart';
 import 'package:remainder/widgets/custom_bar_widget.dart';
 import 'package:remainder/widgets/custom_listOfCards_widget.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   static String id = 'Home page';
   const HomePage();
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  @override
+  void initState() {
+    super.initState();
+    BlocProvider.of<ReadReminderCubit>(context).fetchAllReminders();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
