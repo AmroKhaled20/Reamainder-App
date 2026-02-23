@@ -79,12 +79,7 @@ class _CustomFormCardWidgetState extends State<CustomFormCardWidget> {
             ],
           ),
           const SizedBox(height: 5),
-          // CustomListofdaysWidget(
-          //   selectedDays: BlocProvider.of<ReminderFormCubit>(
-          //     context,
-          //   ).selectedDays,
-          //   isClickable: true,
-          // ),
+
           BlocBuilder<ReminderFormCubit, ReminderFormState>(
             builder: (context, state) {
               final selectedDays = BlocProvider.of<ReminderFormCubit>(

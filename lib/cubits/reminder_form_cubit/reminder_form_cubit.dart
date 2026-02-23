@@ -32,7 +32,6 @@ class ReminderFormCubit extends Cubit<ReminderFormState> {
   void clearForm() {
     selectedDays.clear();
     emit(ReminderFormClear());
-    // emit(ReminderFormSelectDays(selectedDays: List.from(selectedDays)));
   }
 
   void saveReminder(ReminderModel reminder) async {
@@ -41,8 +40,6 @@ class ReminderFormCubit extends Cubit<ReminderFormState> {
     try {
       var reminderBox = Hive.box<ReminderModel>(kReminderBox);
       await reminderBox.add(reminder);
-      // selectedDays.clear();
-      // print('Days cleared: $selectedDays');
 
       emit(ReminderFormSaveSuccessful());
       print('Saved successfully');
