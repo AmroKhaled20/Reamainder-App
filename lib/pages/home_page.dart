@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:remainder/cubits/read_reminder_cubit/read_reminder_cubit.dart';
+import 'package:remainder/cubits/reminder_form_cubit/reminder_form_cubit.dart';
 import 'package:remainder/pages/edit_page.dart';
 import 'package:remainder/widgets/custom_bar_widget.dart';
 import 'package:remainder/widgets/custom_listOfCards_widget.dart';
@@ -36,6 +37,8 @@ class _HomePageState extends State<HomePage> {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
+            final cubit = context.read<ReminderFormCubit>();
+            cubit.clearForm();
             Navigator.pushNamed(context, EditPage.id);
           },
 

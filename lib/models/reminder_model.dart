@@ -5,25 +5,25 @@ part 'reminder_model.g.dart';
 @HiveType(typeId: 0)
 class ReminderModel extends HiveObject {
   @HiveField(0)
-  final String id;
+  String id;
 
   @HiveField(1)
-  final String title;
+  String title;
 
   @HiveField(2)
-  final List<int> days;
+  List<int> days;
 
   @HiveField(3)
-  final int hours;
+  int hours;
 
   @HiveField(4)
-  final int minutes;
+  int minutes;
 
   @HiveField(5)
-  final bool isActive;
+  bool isActive;
 
   @HiveField(6)
-  final String? note;
+  String? note;
 
   ReminderModel({
     required this.id,

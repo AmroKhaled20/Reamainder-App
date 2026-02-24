@@ -7,7 +7,6 @@ import 'package:remainder/cubits/reminder_form_cubit/reminder_form_cubit.dart';
 import 'package:remainder/models/reminder_model.dart';
 import 'package:remainder/pages/home_page.dart';
 import 'package:remainder/widgets/custom_form_card_widget.dart';
-
 import 'package:uuid/uuid.dart';
 
 class CustomAddeditReminderCardWidget extends StatefulWidget {
@@ -27,10 +26,36 @@ class _CustomAddeditReminderCardWidgetState
   final TextEditingController noteController = TextEditingController();
   AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
   TimeOfDay? selectedTime;
-  String? title, note;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final editReminder =
+        ModalRoute.of(context)!.settings.arguments as ReminderModel?;
+
+    if (editReminder != null) {
+      context.read<ReminderFormCubit>().setReminderForEdit(editReminder);
+
+      titleController.text = editReminder.title;
+      noteController.text = editReminder.note ?? '';
+      selectedTime = TimeOfDay(
+        hour: editReminder.hours,
+        minute: editReminder.minutes,
+      );
+      timeController.text = selectedTime!.format(context);
+
+      setState(() {});
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   void dispose() {
+    _onClear();
     timeController.dispose();
     titleController.dispose();
     noteController.dispose();
@@ -40,29 +65,49 @@ class _CustomAddeditReminderCardWidgetState
   void _onSave() {
     if (formKey.currentState!.validate()) {
       formKey.currentState!.save();
-      var selectedDays = BlocProvider.of<ReminderFormCubit>(
-        context,
-      ).selectedDays;
+
+      var cubit = BlocProvider.of<ReminderFormCubit>(context);
+      var selectedDays = cubit.selectedDays;
+
       if (selectedDays.isEmpty) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Please select at least one day')),
+          const SnackBar(content: Text('Please select at least one day')),
         );
         return;
       }
-      ReminderModel reminder = ReminderModel(
-        id: uuid.v4(),
-        title: titleController.text.trim(),
-        days: List.from(selectedDays),
-        hours: selectedTime!.hour,
-        minutes: selectedTime!.minute,
-        isActive: true,
-        note: noteController.text.trim().isEmpty
-            ? null
-            : noteController.text.trim(),
-      );
 
-      BlocProvider.of<ReminderFormCubit>(context).saveReminder(reminder);
-      print('saved');
+      if (selectedTime == null) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(const SnackBar(content: Text('Please select time')));
+        return;
+      }
+
+      if (cubit.editingReminder != null) {
+        cubit.updateReminder(
+          title: titleController.text.trim(),
+          days: List.from(selectedDays),
+          hours: selectedTime!.hour,
+          minutes: selectedTime!.minute,
+          note: noteController.text.trim().isEmpty
+              ? null
+              : noteController.text.trim(),
+        );
+      } else {
+        ReminderModel reminder = ReminderModel(
+          id: uuid.v4(),
+          title: titleController.text.trim(),
+          days: List.from(selectedDays),
+          hours: selectedTime!.hour,
+          minutes: selectedTime!.minute,
+          isActive: true,
+          note: noteController.text.trim().isEmpty
+              ? null
+              : noteController.text.trim(),
+        );
+
+        cubit.saveReminder(reminder);
+      }
     } else {
       setState(() {
         autovalidateMode = AutovalidateMode.always;
@@ -71,7 +116,17 @@ class _CustomAddeditReminderCardWidgetState
   }
 
   void _onClear() {
-    BlocProvider.of<ReminderFormCubit>(context).clearForm();
+    final cubit = context.read<ReminderFormCubit>();
+
+    cubit.clearForm();
+
+    titleController.clear();
+    timeController.clear();
+    noteController.clear();
+
+    setState(() {
+      selectedTime = null;
+    });
   }
 
   void _pickTime() {
@@ -122,16 +177,10 @@ class _CustomAddeditReminderCardWidgetState
           child: SingleChildScrollView(
             child: BlocConsumer<ReminderFormCubit, ReminderFormState>(
               listener: (context, state) {
-                if (state is ReminderFormClear) {
-                  titleController.clear();
-                  timeController.clear();
-                  noteController.clear();
-                  setState(() {
-                    selectedTime = null;
-                  });
-                }
                 if (state is ReminderFormSaveFailure) {
-                  print('Failed ${state.errorMessage}');
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Error: ${state.errorMessage}')),
+                  );
                 }
                 if (state is ReminderFormSaveSuccessful) {
                   titleController.clear();
@@ -149,12 +198,12 @@ class _CustomAddeditReminderCardWidgetState
               },
               builder: (context, state) {
                 return ModalProgressHUD(
-                  inAsyncCall: state is ReminderFormLoading ? true : false,
-                  progressIndicator: Center(
-                    child: const CircularProgressIndicator(),
+                  inAsyncCall: state is ReminderFormLoading,
+                  progressIndicator: const Center(
+                    child: CircularProgressIndicator(),
                   ),
                   child: AbsorbPointer(
-                    absorbing: state is ReminderFormLoading ? true : false,
+                    absorbing: state is ReminderFormLoading,
                     child: CustomFormCardWidget(
                       formKey: formKey,
                       titleController: titleController,

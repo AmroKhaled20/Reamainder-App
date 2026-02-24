@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:remainder/cubits/read_reminder_cubit/read_reminder_cubit.dart';
+import 'package:remainder/cubits/reminder_form_cubit/reminder_form_cubit.dart';
 import 'package:remainder/models/reminder_model.dart';
+import 'package:remainder/pages/edit_page.dart';
 import 'package:remainder/widgets/custom_reminder_card_widget.dart';
 
 class CustomListofcardsWidget extends StatelessWidget {
@@ -57,7 +59,17 @@ class CustomListofcardsWidget extends StatelessWidget {
                       ),
                       CustomSlidableAction(
                         onPressed: (context) {
-                          // edit reminder
+                          final reminder = reminders[index];
+
+                          // BlocProvider.of<ReminderFormCubit>(
+                          //   context,
+                          // ).setReminderForEdit(reminder);
+
+                          Navigator.pushNamed(
+                            context,
+                            EditPage.id,
+                            arguments: reminder,
+                          );
                         },
                         child: Container(
                           margin: const EdgeInsets.symmetric(vertical: 20),

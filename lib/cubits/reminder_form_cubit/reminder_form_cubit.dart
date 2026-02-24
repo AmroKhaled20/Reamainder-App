@@ -9,6 +9,7 @@ part 'reminder_form_state.dart';
 class ReminderFormCubit extends Cubit<ReminderFormState> {
   ReminderFormCubit() : super(ReminderFormInitial());
   List<int> selectedDays = [];
+  ReminderModel? editingReminder;
 
   void toggleDay(int dayValue) {
     if (selectedDays.contains(dayValue)) {
@@ -29,9 +30,44 @@ class ReminderFormCubit extends Cubit<ReminderFormState> {
     emit(ReminderFormSelectDays(selectedDays: List.from(selectedDays)));
   }
 
+  void setReminderForEdit(ReminderModel reminder) {
+    editingReminder = reminder;
+    selectedDays = List.from(reminder.days); // نشيل الأيام القديمة
+    emit(ReminderFormSelectDays(selectedDays: List.from(selectedDays)));
+  }
+
   void clearForm() {
+    editingReminder = null;
     selectedDays.clear();
-    emit(ReminderFormClear());
+  }
+
+  Future<void> updateReminder({
+    required String title,
+    required List<int> days,
+    required int hours,
+    required int minutes,
+    required String? note,
+  }) async {
+    emit(ReminderFormLoading());
+
+    try {
+      editingReminder!
+        ..title = title
+        ..days = days
+        ..hours = hours
+        ..minutes = minutes
+        ..note = note;
+
+      await editingReminder!.save();
+
+      clearForm();
+      // selectedDays.clear();
+      // editingReminder = null;
+
+      emit(ReminderFormSaveSuccessful());
+    } catch (e) {
+      emit(ReminderFormSaveFailure(e.toString()));
+    }
   }
 
   void saveReminder(ReminderModel reminder) async {

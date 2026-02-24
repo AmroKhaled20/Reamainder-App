@@ -38,12 +38,16 @@ class CustomReminderCardWidget extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  reminder.title,
-                  style: TextStyle(
-                    color: ktextColor,
-                    fontSize: 23,
-                    fontWeight: FontWeight.w600,
+                SizedBox(
+                  width: 220,
+                  child: Text(
+                    reminder.title,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      color: ktextColor,
+                      fontSize: 30,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
                 CustomSwitchWidget(),
@@ -56,7 +60,7 @@ class CustomReminderCardWidget extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    "${_getDisplayHour(reminder.hours).toString().padLeft(2, '0')} : ${reminder.minutes.toString().padLeft(2, '0')}",
+                    "${_getDisplayHour(reminder.hours)}:${reminder.minutes.toString().padLeft(2, '0')}",
                     style: TextStyle(
                       color: kTimeColor,
                       fontSize: 50,

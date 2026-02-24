@@ -5,7 +5,7 @@ abstract class ReminderFormState {}
 
 final class ReminderFormInitial extends ReminderFormState {}
 
-final class ReminderFormClear extends ReminderFormState {}
+// final class ReminderFormClear extends ReminderFormState {}
 
 final class ReminderFormSave extends ReminderFormState {}
 
