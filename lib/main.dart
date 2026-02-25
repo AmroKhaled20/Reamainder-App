@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:remainder/constants.dart';
+import 'package:remainder/core/services/notification_service.dart';
 import 'package:remainder/cubits/read_reminder_cubit/read_reminder_cubit.dart';
 import 'package:remainder/cubits/reminder_form_cubit/reminder_form_cubit.dart';
 import 'package:remainder/models/reminder_model.dart';
@@ -12,6 +13,7 @@ import 'package:remainder/widgets/custom_reminder_card_widget.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   Bloc.observer = SimpleBlocObserver();
 
   await Hive.initFlutter();
@@ -19,6 +21,8 @@ void main() async {
   Hive.registerAdapter(ReminderModelAdapter());
 
   await Hive.openBox<ReminderModel>(kReminderBox);
+
+  await NotificationService.instance.initialize();
   runApp(RemainderApp());
 }
 
