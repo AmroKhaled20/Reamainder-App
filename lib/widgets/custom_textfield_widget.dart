@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:remainder/constants.dart';
 
-class CustomTextFieldWidget extends StatelessWidget {
+class CustomTextFieldWidget extends StatefulWidget {
   const CustomTextFieldWidget({
     this.hintText,
     this.controller,
@@ -25,37 +25,73 @@ class CustomTextFieldWidget extends StatelessWidget {
   final void Function()? onTap;
   final bool readOnly;
   final bool isRequired;
+
+  @override
+  State<CustomTextFieldWidget> createState() => _CustomTextFieldWidgetState();
+}
+
+class _CustomTextFieldWidgetState extends State<CustomTextFieldWidget> {
+  @override
+  void initState() {
+    super.initState();
+    widget.controller?.addListener(() {
+      if (mounted) setState(() {});
+    });
+  }
+
+  @override
+  void dispose() {
+    widget.controller?.removeListener(() {
+      if (mounted) setState(() {});
+    });
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      onTap: onTap,
-      readOnly: readOnly,
-      controller: controller,
-      onSaved: onSaved,
-      onChanged: onChanged,
+      onTap: widget.onTap,
+      readOnly: widget.readOnly,
+      controller: widget.controller,
+      onSaved: widget.onSaved,
+      onChanged: widget.onChanged,
       validator: (value) {
-        if (!isRequired) return null;
+        if (!widget.isRequired) return null;
         if (value?.isEmpty ?? true) {
           return 'Feild is required';
         } else {
           return null;
         }
       },
-      cursorColor: textColor ?? kEditPage,
-      style: TextStyle(color: textColor ?? Colors.black),
+      cursorColor: widget.textColor ?? kEditPage,
+      style: TextStyle(color: widget.textColor ?? Colors.black),
       keyboardType: TextInputType.multiline,
-      maxLines: maxLines,
-      minLines: minLines,
+      maxLines: widget.maxLines,
+      minLines: widget.minLines,
       textInputAction: TextInputAction.newline,
+      textDirection: isArabic(widget.controller?.text ?? '')
+          ? TextDirection.rtl
+          : TextDirection.ltr,
+      textAlign: isArabic(widget.controller?.text ?? '')
+          ? TextAlign.right
+          : TextAlign.left,
       decoration: InputDecoration(
         contentPadding: EdgeInsets.symmetric(vertical: 2, horizontal: 10),
-        hintText: hintText,
+        hintText: widget.hintText,
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(16)),
         focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: kEditPage, width: 2),
+          borderSide: BorderSide(
+            color: widget.textColor ?? kEditPage,
+            width: 2,
+          ),
           borderRadius: BorderRadius.circular(16),
         ),
       ),
     );
   }
+}
+
+bool isArabic(String text) {
+  final arabicRegex = RegExp(r'[\u0600-\u06FF]');
+  return arabicRegex.hasMatch(text);
 }
