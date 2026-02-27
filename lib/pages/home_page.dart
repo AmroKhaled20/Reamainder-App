@@ -37,8 +37,11 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            NotificationService.instance.showTestNotification();
+          onPressed: () async {
+            //await NotificationService.instance.showTestNotification();
+
+            // await NotificationService.instance.scheduleNotification();
+
             final cubit = context.read<ReminderFormCubit>();
             cubit.clearForm();
             Navigator.pushNamed(context, EditPage.id);

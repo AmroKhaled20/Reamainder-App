@@ -8,6 +8,7 @@ import 'package:remainder/cubits/reminder_form_cubit/reminder_form_cubit.dart';
 import 'package:remainder/models/reminder_model.dart';
 import 'package:remainder/pages/edit_page.dart';
 import 'package:remainder/pages/home_page.dart';
+import 'package:remainder/pages/reminder_datails_page.dart';
 import 'package:remainder/simple_bloc_observer.dart';
 import 'package:remainder/widgets/custom_reminder_card_widget.dart';
 
@@ -39,6 +40,7 @@ class RemainderApp extends StatelessWidget {
         routes: {
           HomePage.id: (context) => HomePage(),
           EditPage.id: (context) => EditPage(),
+          ReminderDatailsPage.id: (context) => ReminderDatailsPage(),
         },
         theme: ThemeData(brightness: Brightness.dark, fontFamily: 'Poppins'),
         home: const HomePage(),

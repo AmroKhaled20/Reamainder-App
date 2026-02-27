@@ -61,13 +61,16 @@ class ReminderFormCubit extends Cubit<ReminderFormState> {
       await editingReminder!.save();
 
       clearForm();
-      // selectedDays.clear();
-      // editingReminder = null;
 
       emit(ReminderFormSaveSuccessful());
     } catch (e) {
       emit(ReminderFormSaveFailure(e.toString()));
     }
+  }
+
+  void clearFormKeepEditing() {
+    selectedDays.clear();
+    emit(ReminderFormSelectDays(selectedDays: []));
   }
 
   void saveReminder(ReminderModel reminder) async {

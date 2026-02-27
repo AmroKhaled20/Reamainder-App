@@ -26,10 +26,13 @@ class _CustomAddeditReminderCardWidgetState
   final TextEditingController noteController = TextEditingController();
   AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
   TimeOfDay? selectedTime;
-
+  bool _initialized = false;
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+
+    if (_initialized) return;
+    _initialized = true;
     final editReminder =
         ModalRoute.of(context)!.settings.arguments as ReminderModel?;
 
@@ -55,7 +58,6 @@ class _CustomAddeditReminderCardWidgetState
 
   @override
   void dispose() {
-    _onClear();
     timeController.dispose();
     titleController.dispose();
     noteController.dispose();
@@ -116,9 +118,10 @@ class _CustomAddeditReminderCardWidgetState
   }
 
   void _onClear() {
+    if (!mounted) return;
     final cubit = context.read<ReminderFormCubit>();
 
-    cubit.clearForm();
+    cubit.clearFormKeepEditing();
 
     titleController.clear();
     timeController.clear();
@@ -174,36 +177,35 @@ class _CustomAddeditReminderCardWidgetState
         ),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
-          child: SingleChildScrollView(
-            child: BlocConsumer<ReminderFormCubit, ReminderFormState>(
-              listener: (context, state) {
-                if (state is ReminderFormSaveFailure) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Error: ${state.errorMessage}')),
-                  );
-                }
-                if (state is ReminderFormSaveSuccessful) {
-                  titleController.clear();
-                  timeController.clear();
-                  noteController.clear();
-                  BlocProvider.of<ReminderFormCubit>(context).clearForm();
-                  setState(() {
-                    selectedTime = null;
-                  });
-                  BlocProvider.of<ReadReminderCubit>(
-                    context,
-                  ).fetchAllReminders();
-                  Navigator.pushReplacementNamed(context, HomePage.id);
-                }
-              },
-              builder: (context, state) {
-                return ModalProgressHUD(
-                  inAsyncCall: state is ReminderFormLoading,
-                  progressIndicator: const Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                  child: AbsorbPointer(
-                    absorbing: state is ReminderFormLoading,
+          child: BlocConsumer<ReminderFormCubit, ReminderFormState>(
+            listener: (context, state) {
+              if (state is ReminderFormSaveFailure) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('Error: ${state.errorMessage}')),
+                );
+              }
+              if (state is ReminderFormSaveSuccessful) {
+                titleController.clear();
+                timeController.clear();
+                noteController.clear();
+                BlocProvider.of<ReminderFormCubit>(context).clearForm();
+                setState(() {
+                  selectedTime = null;
+                });
+                BlocProvider.of<ReadReminderCubit>(context).fetchAllReminders();
+                Navigator.pushReplacementNamed(context, HomePage.id);
+              }
+            },
+            builder: (context, state) {
+              return ModalProgressHUD(
+                inAsyncCall: state is ReminderFormLoading,
+                progressIndicator: const Center(
+                  child: CircularProgressIndicator(),
+                ),
+                child: AbsorbPointer(
+                  absorbing: state is ReminderFormLoading,
+                  child: SingleChildScrollView(
+                    // ← اتنقلت لهنا
                     child: CustomFormCardWidget(
                       formKey: formKey,
                       titleController: titleController,
@@ -216,9 +218,9 @@ class _CustomAddeditReminderCardWidgetState
                       onClear: _onClear,
                     ),
                   ),
-                );
-              },
-            ),
+                ),
+              );
+            },
           ),
         ),
       ),

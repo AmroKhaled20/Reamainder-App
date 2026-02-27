@@ -1,5 +1,3 @@
-//
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:remainder/cubits/reminder_form_cubit/reminder_form_cubit.dart';
@@ -27,10 +25,8 @@ class CustomListofdaysWidget extends StatelessWidget {
           bool isSelected;
 
           if (reminder != null) {
-            // في HomePage - نستخدم أيام الـ reminder
             isSelected = reminder!.days.contains(day['value']);
           } else {
-            // في EditPage - نستخدم selectedDays
             isSelected = selectedDays?.contains(day['value']) ?? false;
           }
 

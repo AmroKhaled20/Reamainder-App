@@ -37,7 +37,6 @@ class CustomListofcardsWidget extends StatelessWidget {
                     children: [
                       CustomSlidableAction(
                         onPressed: (context) {
-                          // delete reminder
                           BlocProvider.of<ReadReminderCubit>(
                             context,
                           ).deleteReminder(reminder);
@@ -60,10 +59,6 @@ class CustomListofcardsWidget extends StatelessWidget {
                       CustomSlidableAction(
                         onPressed: (context) {
                           final reminder = reminders[index];
-
-                          // BlocProvider.of<ReminderFormCubit>(
-                          //   context,
-                          // ).setReminderForEdit(reminder);
 
                           Navigator.pushNamed(
                             context,
