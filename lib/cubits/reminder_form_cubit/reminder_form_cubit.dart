@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:meta/meta.dart';
 import 'package:remainder/constants.dart';
+import 'package:remainder/core/services/notification_service.dart';
 import 'package:remainder/models/reminder_model.dart';
 
 part 'reminder_form_state.dart';
@@ -51,6 +52,10 @@ class ReminderFormCubit extends Cubit<ReminderFormState> {
     emit(ReminderFormLoading());
 
     try {
+      await NotificationService.instance.cancelReminderNotifications(
+        editingReminder!,
+      );
+
       editingReminder!
         ..title = title
         ..days = days
@@ -59,6 +64,10 @@ class ReminderFormCubit extends Cubit<ReminderFormState> {
         ..note = note;
 
       await editingReminder!.save();
+
+      await NotificationService.instance.scheduleReminderNotifications(
+        editingReminder!,
+      );
 
       clearForm();
 
@@ -79,7 +88,9 @@ class ReminderFormCubit extends Cubit<ReminderFormState> {
     try {
       var reminderBox = Hive.box<ReminderModel>(kReminderBox);
       await reminderBox.add(reminder);
-
+      await NotificationService.instance.scheduleReminderNotifications(
+        reminder,
+      );
       emit(ReminderFormSaveSuccessful());
       print('Saved successfully');
     } catch (e) {

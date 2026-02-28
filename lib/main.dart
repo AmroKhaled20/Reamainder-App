@@ -10,7 +10,8 @@ import 'package:remainder/pages/edit_page.dart';
 import 'package:remainder/pages/home_page.dart';
 import 'package:remainder/pages/reminder_datails_page.dart';
 import 'package:remainder/simple_bloc_observer.dart';
-import 'package:remainder/widgets/custom_reminder_card_widget.dart';
+
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,16 +19,33 @@ void main() async {
   Bloc.observer = SimpleBlocObserver();
 
   await Hive.initFlutter();
-
   Hive.registerAdapter(ReminderModelAdapter());
-
   await Hive.openBox<ReminderModel>(kReminderBox);
 
-  await NotificationService.instance.initialize();
-  runApp(RemainderApp());
+  await NotificationService.instance.initialize(navigatorKey: navigatorKey);
+
+  final reminderId = await NotificationService.instance
+      .getInitialNotificationPayload();
+
+  runApp(const RemainderApp());
+
+  if (reminderId != null) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final box = Hive.box<ReminderModel>(kReminderBox);
+      final reminders = box.values.where((r) => r.id == reminderId).toList();
+      if (reminders.isNotEmpty) {
+        navigatorKey.currentState?.pushNamed(
+          ReminderDatailsPage.id,
+          arguments: reminders.first,
+        );
+      }
+    });
+  }
 }
 
 class RemainderApp extends StatelessWidget {
+  const RemainderApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -36,6 +54,7 @@ class RemainderApp extends StatelessWidget {
         BlocProvider(create: (context) => ReadReminderCubit()),
       ],
       child: MaterialApp(
+        navigatorKey: navigatorKey,
         debugShowCheckedModeBanner: false,
         routes: {
           HomePage.id: (context) => HomePage(),

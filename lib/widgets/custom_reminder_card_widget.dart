@@ -37,6 +37,13 @@ class CustomReminderCardWidget extends StatelessWidget {
             width: 3,
           ),
           color: kCardColor,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.3),
+              blurRadius: 8,
+              offset: const Offset(-6, 0),
+            ),
+          ],
         ),
         width: double.infinity,
         child: Padding(
@@ -59,7 +66,7 @@ class CustomReminderCardWidget extends StatelessWidget {
                       ),
                     ),
                   ),
-                  CustomSwitchWidget(),
+                  CustomSwitchWidget(reminder: reminder),
                 ],
               ),
               const SizedBox(height: 1),

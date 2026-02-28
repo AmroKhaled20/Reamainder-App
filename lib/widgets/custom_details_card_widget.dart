@@ -6,7 +6,17 @@ import 'package:remainder/widgets/custom_textfield_widget.dart';
 
 class CustomDetailsCardWidget extends StatelessWidget {
   final ReminderModel reminder;
+
   const CustomDetailsCardWidget({required this.reminder, super.key});
+
+  String _getAmPm(int hour) {
+    return hour >= 12 ? 'PM' : 'AM';
+  }
+
+  int _getDisplayHour(int hour) {
+    if (hour == 0 || hour == 12) return 12;
+    return hour > 12 ? hour - 12 : hour;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +51,7 @@ class CustomDetailsCardWidget extends StatelessWidget {
               readOnly: true,
               controller: TextEditingController(
                 text:
-                    '${reminder.hours.toString()}:${reminder.minutes.toString().padLeft(2, '0')}',
+                    '${_getDisplayHour(reminder.hours)}:${reminder.minutes.toString().padLeft(2, '0')} ${_getAmPm(reminder.hours)}',
               ),
             ),
             const SizedBox(height: 20),

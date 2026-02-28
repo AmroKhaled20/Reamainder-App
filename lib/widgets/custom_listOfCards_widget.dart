@@ -30,60 +30,65 @@ class CustomListofcardsWidget extends StatelessWidget {
               final reminder = reminders[index];
               return Padding(
                 padding: const EdgeInsets.only(bottom: 10),
-                child: Slidable(
-                  key: ValueKey(reminder.id),
-                  startActionPane: ActionPane(
-                    motion: const DrawerMotion(),
-                    children: [
-                      CustomSlidableAction(
-                        onPressed: (context) {
-                          BlocProvider.of<ReadReminderCubit>(
-                            context,
-                          ).deleteReminder(reminder);
-                        },
-                        child: Container(
-                          margin: const EdgeInsets.symmetric(vertical: 20),
-                          decoration: BoxDecoration(
-                            color: Colors.red,
-                            borderRadius: BorderRadius.circular(12),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(12),
+                  child: ColoredBox(
+                    color: Colors.white,
+                    child: Slidable(
+                      key: ValueKey(reminder.id),
+                      startActionPane: ActionPane(
+                        motion: const DrawerMotion(),
+                        children: [
+                          CustomSlidableAction(
+                            onPressed: (context) {
+                              BlocProvider.of<ReadReminderCubit>(
+                                context,
+                              ).deleteReminder(reminder);
+                            },
+                            child: Container(
+                              margin: const EdgeInsets.symmetric(vertical: 20),
+                              decoration: BoxDecoration(
+                                color: Colors.red,
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              width: 60,
+                              alignment: Alignment.center,
+                              child: const Icon(
+                                Icons.delete,
+                                color: Colors.white,
+                                size: 30,
+                              ),
+                            ),
                           ),
-                          width: 60,
-                          alignment: Alignment.center,
-                          child: const Icon(
-                            Icons.delete,
-                            color: Colors.white,
-                            size: 30,
+                          CustomSlidableAction(
+                            onPressed: (context) {
+                              final reminder = reminders[index];
+                              Navigator.pushNamed(
+                                context,
+                                EditPage.id,
+                                arguments: reminder,
+                              );
+                            },
+                            child: Container(
+                              margin: const EdgeInsets.symmetric(vertical: 20),
+                              decoration: BoxDecoration(
+                                color: Colors.blue,
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              width: 60,
+                              alignment: Alignment.center,
+                              child: const Icon(
+                                Icons.edit,
+                                color: Colors.white,
+                                size: 30,
+                              ),
+                            ),
                           ),
-                        ),
+                        ],
                       ),
-                      CustomSlidableAction(
-                        onPressed: (context) {
-                          final reminder = reminders[index];
-
-                          Navigator.pushNamed(
-                            context,
-                            EditPage.id,
-                            arguments: reminder,
-                          );
-                        },
-                        child: Container(
-                          margin: const EdgeInsets.symmetric(vertical: 20),
-                          decoration: BoxDecoration(
-                            color: Colors.blue,
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          width: 60,
-                          alignment: Alignment.center,
-                          child: const Icon(
-                            Icons.edit,
-                            color: Colors.white,
-                            size: 30,
-                          ),
-                        ),
-                      ),
-                    ],
+                      child: CustomReminderCardWidget(reminder: reminder),
+                    ),
                   ),
-                  child: CustomReminderCardWidget(reminder: reminder),
                 ),
               );
             },
