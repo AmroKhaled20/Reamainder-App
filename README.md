@@ -1,16 +1,57 @@
-# remainder
+# ⏰ Reminder App
 
-A new Flutter project.
+A fully functional Reminder App built with Flutter, designed to help users stay consistent with their routines, habits, and important tasks through precise and intelligent local notifications.
 
-## Getting Started
+---
 
-This project is a starting point for a Flutter application.
+## ✨ Key Features
 
-A few resources to get you started if this is your first Flutter project:
+- **Daily Recurring Reminders:** Create daily reminders for consistent habits and routines.
+- **Weekly Repeat:** Schedule reminders on specific days of the week (e.g., Tue, Thu, Sat).
+- **Edit & Update Reminders:** Modify existing reminders with automatic rescheduling.
+- **Smart Cancellation Logic:** Prevent duplicate notifications through intelligent cancellation handling.
+- **Unique ID Management:** Ensure precise notification identification and control.
+- **Notification Navigation:** Tap a notification to open the exact reminder details.
+- **Responsive Design:** Clean, scalable, and maintainable code.
+- **User-Friendly UI/UX:** Smooth and intuitive interface for effortless interaction.
+- **Release Build Testing:** Tested on real devices for production stability.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+---
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## 🏗️ Tech Stack
+
+- **Framework:** Flutter (Dart)
+- **Local Notifications:** `flutter_local_notifications` (Accurate scheduling and background execution)
+- **Timezone Management:** `timezone` (Handling accurate scheduled notifications across different time zones and ensuring correct trigger timing)
+- **Local Persistence & Storage:** `Hive` (Fast and offline data storage)
+- **State Management:** `Cubit` (Clean and predictable state management)
+
+---
+
+## 🚀 Getting Started
+
+To run this project locally, make sure you have Flutter installed.
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/AmroKhaled20/Reamainder-App.git
+```
+
+### 2. Navigate to the project directory
+
+```bash
+cd Reamainder-App
+```
+
+### 3. Install dependencies
+
+```bash
+flutter pub get
+```
+
+### 4. Run the app
+
+```bash
+flutter run
+```
